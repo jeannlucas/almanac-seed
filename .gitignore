@@ -20,3 +20,5 @@ supabase/.branches/
 
 next-env.d.ts
 *.tsbuildinfo
+
+.playwright-mcp/

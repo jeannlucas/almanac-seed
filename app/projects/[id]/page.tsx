@@ -8,6 +8,8 @@ import {
 } from "@/app/projects/[id]/actions";
 import { requireUser } from "@/lib/auth/require-user";
 import { getSiteUrl } from "@/lib/env";
+import { dictionary } from "@/lib/i18n/dictionary";
+import { getLang } from "@/lib/i18n/server";
 import type { Anchor } from "@/lib/pins/anchor";
 import type {
   Comment,
@@ -23,7 +25,7 @@ type RouteProps = {
 
 export default async function ProjectPage({ params }: RouteProps) {
   const { id } = await params;
-  const { supabase } = await requireUser();
+  const { user, supabase } = await requireUser();
 
   const { data: project } = await supabase
     .from("projects")
@@ -105,6 +107,17 @@ export default async function ProjectPage({ params }: RouteProps) {
     await resolvePinAsOwner({ projectId: id, ...input });
   }
 
+  const lang = await getLang();
+  const t = dictionary[lang];
+  const fullName =
+    (user.user_metadata?.full_name as string | undefined) ??
+    (user.user_metadata?.name as string | undefined) ??
+    null;
+  const avatarUrl =
+    (user.user_metadata?.avatar_url as string | undefined) ??
+    (user.user_metadata?.picture as string | undefined) ??
+    null;
+
   return (
     <Editor
       mode={{ kind: "owner", project: project as Project }}
@@ -117,6 +130,10 @@ export default async function ProjectPage({ params }: RouteProps) {
       createPin={createPin}
       createComment={createComment}
       resolvePin={resolvePin}
+      lang={lang}
+      t={t.editor}
+      navT={t.nav}
+      user={{ email: user.email ?? "", fullName, avatarUrl }}
     />
   );
 }

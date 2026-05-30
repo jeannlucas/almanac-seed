@@ -7,6 +7,8 @@ import {
 } from "@/app/share/[token]/actions";
 import { getOptionalUser } from "@/lib/auth/require-user";
 import { getSiteUrl } from "@/lib/env";
+import { dictionary } from "@/lib/i18n/dictionary";
+import { getLang } from "@/lib/i18n/server";
 import type { Anchor } from "@/lib/pins/anchor";
 import { createSupabaseAnonServerClient } from "@/lib/supabase/server";
 import type {
@@ -76,9 +78,26 @@ export default async function SharePage({ params }: RouteProps) {
     });
   }
 
+  const lang = await getLang();
+  const t = dictionary[lang];
+  const fullName = user
+    ? ((user.user_metadata?.full_name as string | undefined) ??
+        (user.user_metadata?.name as string | undefined) ??
+        null)
+    : null;
+  const avatarUrl = user
+    ? ((user.user_metadata?.avatar_url as string | undefined) ??
+        (user.user_metadata?.picture as string | undefined) ??
+        null)
+    : null;
+
   return (
     <Editor
-      mode={{ kind: "public", project: bundle.project as Project, shareToken: token }}
+      mode={{
+        kind: "public",
+        project: bundle.project as Project,
+        shareToken: token,
+      }}
       page={page as Page}
       pins={pinsForPage as Pin[]}
       comments={commentsForPage as Comment[]}
@@ -88,6 +107,14 @@ export default async function SharePage({ params }: RouteProps) {
       createPin={createPin}
       createComment={createComment}
       resolvePin={null}
+      lang={lang}
+      t={t.editor}
+      navT={t.nav}
+      user={
+        user
+          ? { email: user.email ?? "", fullName, avatarUrl }
+          : null
+      }
     />
   );
 }

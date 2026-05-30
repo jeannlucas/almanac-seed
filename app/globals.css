@@ -3,10 +3,33 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 html,
 body {
   height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer utilities {
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(63, 63, 70, 0.35) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(63, 63, 70, 0.35) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 80%);
+  }
+
+  .text-gradient-brand {
+    background-image: linear-gradient(120deg, #a855f7 0%, #8b5cf6 50%, #22d3ee 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 }
