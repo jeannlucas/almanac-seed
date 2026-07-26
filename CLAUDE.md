@@ -45,10 +45,10 @@ apoio, `middleware.ts` na borda.
 2. **Sem cobertura**, por consequência.
 
 ## Vocabulário de domínio
-- **Pin** — âncora que prende o comentário a um ponto da página.
-- **SEED.md** — documento fonte que define os requisitos R1 a R6 e a jornada de
+- **Pin**: âncora que prende o comentário a um ponto da página.
+- **SEED.md**: documento fonte que define os requisitos R1 a R6 e a jornada de
   aceitação. É a especificação; leia antes de mudar comportamento.
-- **R1 a R6** — os seis requisitos obrigatórios.
+- **R1 a R6**: os seis requisitos obrigatórios.
 
 ## Armadilhas conhecidas
 1. **É repositório PÚBLICO.** Nada de dado pessoal ou credencial, nem em teste.
